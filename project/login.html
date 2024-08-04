@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutor Login - Online Coding Courses</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <a href="index.html" class="logo-link">
+                <img src="images/logo.png" alt="Courses Online Logo" class="logo">
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home Page</a></li>
+                    <li><a href="login.html">Login</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="login-container">
+            <h2>Tutor Login</h2>
+            <form action="login-process.jsp" method="post">
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit">Login</button>
+                <p>Don't have an account? <a href="Create registration.html">Register here</a></p>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <a href="https://www.facebook.com" target="_blank" class="social-icon">
+                <img src="images/facebook-icon.png" alt="Facebook">
+            </a>
+            <a href="https://www.twitter.com" target="_blank" class="social-icon">
+                <img src="images/twitter-icon.png" alt="Twitter">
+            </a>
+            <a href="https://www.instagram.com" target="_blank" class="social-icon">
+                <img src="images/instagram-icon.png" alt="Instagram">
+            </a>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
