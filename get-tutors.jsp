@@ -5,7 +5,8 @@
 
     try {
         Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/coding_courses", "root", "");
+        
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/coding_courses", "root", "0503089535a");
         Statement stmt = con.createStatement();
 
         String query = "SELECT * FROM tutors WHERE course='" + course + "'";
