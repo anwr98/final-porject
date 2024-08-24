@@ -3,14 +3,14 @@
 <%
     String name = request.getParameter("name");
     String email = request.getParameter("email");
-    String username = request.getParameter("username");
+    String phone = request.getParameter("phone"); // Corrected to phone
     String password = request.getParameter("password");
     String course = request.getParameter("course");
 
     // Debugging Output
     out.println("Name: " + name);
     out.println("Email: " + email);
-    out.println("Username: " + username);
+    out.println("Phone: " + phone); // Corrected to phone
     out.println("Password: " + password);
     out.println("Course: " + course);
 
@@ -25,7 +25,7 @@
                 stmt.setString(1, name);
                 stmt.setString(2, email);
                 stmt.setString(3, password);
-                stmt.setString(4, username);
+                stmt.setString(4, phone); // Use phone here
                 stmt.setString(5, course);
                 
                 int n = stmt.executeUpdate();
@@ -43,5 +43,4 @@
         out.println("Error: MySQL Driver not found");
     }
 %>
-
 
