@@ -1,43 +1,46 @@
-<%@ page import="java.sql.*" %>
+<%@ page import="java.sql.Connection, java.sql.DriverManager, java.sql.PreparedStatement, java.sql.SQLException" %>
+
 <%
     String name = request.getParameter("name");
-    String username = request.getParameter("username");
+    String email = request.getParameter("email");
+    String phone = request.getParameter("phone"); // Corrected to phone
     String password = request.getParameter("password");
-    String specialization = request.getParameter("specialization");
+    String course = request.getParameter("course");
 
-    Connection conn = null;
-    PreparedStatement stmt = null;
+    // Debugging Output
+    out.println("Name: " + name);
+    out.println("Email: " + email);
+    out.println("Phone: " + phone); // Corrected to phone
+    out.println("Password: " + password);
+    out.println("Course: " + course);
 
     try {
-        // Load JDBC driver (replace with your database driver)
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        
-        // Establish connection (replace with your DB URL, username, and password)
-        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/yourdbname", "yourusername", "yourpassword");
-        
-        // Query to insert new tutor (modify according to your schema)
-        String sql = "INSERT INTO tutors (name, username, password, specialization) VALUES (?, ?, ?, ?)";
-        stmt = conn.prepareStatement(sql);
-        stmt.setString(1, name);
-        stmt.setString(2, username);
-        stmt.setString(3, password);
-        stmt.setString(4, specialization);
-        
-        int rowsInserted = stmt.executeUpdate();
+        // Ensure you have the correct MySQL driver class for your version of MySQL
+        Class.forName("com.mysql.jdbc.Driver");
 
-        if (rowsInserted > 0) {
-            // Registration successful
-            response.sendRedirect("login.html");
-        } else {
-            // Registration failed
-            response.sendRedirect("registration.html?error=true");
+        // Establish a database connection
+        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/coding_courses?enabledTLSProtocols=TLSv1.2", "root", "0503089535a")) {
+            String sql = "INSERT INTO tutors (name, email, password, phone, course) VALUES (?, ?, ?, ?, ?)";
+            try (PreparedStatement stmt = con.prepareStatement(sql)) {
+                stmt.setString(1, name);
+                stmt.setString(2, email);
+                stmt.setString(3, password);
+                stmt.setString(4, phone); // Use phone here
+                stmt.setString(5, course);
+                
+                int n = stmt.executeUpdate();
+                out.println(n + " rows inserted");
+            }
         }
-    } catch (Exception e) {
+        // Redirect after successful registration
+        response.sendRedirect("login.html");
+
+    } catch (SQLException e) {
         e.printStackTrace();
-        response.sendRedirect("registration.html?error=true");
-    } finally {
-        // Close resources
-        if (stmt != null) try { stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
-        if (conn != null) try { conn.close(); } catch (SQLException e) { e.printStackTrace(); }
+        out.println("Error: " + e.getMessage());
+    } catch (ClassNotFoundException e) {
+        e.printStackTrace();
+        out.println("Error: MySQL Driver not found");
     }
 %>
+

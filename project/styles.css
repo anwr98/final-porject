@@ -1,215 +1,188 @@
 body {
     font-family: Arial, sans-serif;
+    background-color: #e6f7ff; /* Light blue color scheme */
     margin: 0;
     padding: 0;
-    background-color: #f0f8ff; /* Light blue background */
 }
 
 header {
-    background-color: #ffffff; /* White background for header */
-    border-bottom: 2px solid #d0e0f0; /* Light blue border */
+    background-color: #007bff; /* Solid blue */
+    color: white;
     padding: 10px 0;
-}
-
-.header-container {
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Adjusts spacing between logo and nav */
-    width: 80%;
-    margin: 0 auto;
 }
 
-.logo-link {
-    display: flex;
-    align-items: center;
-    text-decoration: none; /* Remove underline from the link */
+#logo-container {
+    flex: 1;
+    text-align: left;
+    padding-left: 20px;
 }
 
-.logo {
-    height: 50px; /* Adjust logo size */
+#logo {
+    height: 50px;
+    cursor: pointer;
+}
+
+nav {
+    flex: 3;
+    text-align: right;
+    padding-right: 20px;
 }
 
 nav ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    display: flex;
-    gap: 20px; /* Spacing between nav items */
 }
 
 nav ul li {
     display: inline;
+    margin: 0 15px;
 }
 
 nav ul li a {
+    color: white;
     text-decoration: none;
-    color: #007bff; /* Blue color for links */
-    font-weight: bold;
 }
 
-nav ul li a:hover {
-    text-decoration: underline;
-}
-
-.top-tutors {
+section {
     padding: 20px;
-    background-color: #e0f7fa; /* Light cyan background for top tutors section */
-    border: 1px solid #b2ebf2; /* Light cyan border */
-    margin: 20px auto;
-    width: 80%;
-}
-
-.top-tutors h2 {
-    text-align: center;
-    color: #007bff; /* Blue color for the title */
-}
-
-.top-tutors ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
-
-.top-tutors ul li {
-    display: flex;
-    align-items: center;
-    border-bottom: 1px solid #b2ebf2;
-    padding: 10px 0;
-}
-
-.top-tutors .tutor-photo {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    margin-right: 15px;
-}
-
-.top-tutors .tutor-info h3 {
-    margin: 0;
-    color: #333;
-}
-
-.top-tutors .tutor-info p {
-    margin: 5px 0 0;
-    color: #555;
 }
 
 footer {
-    background-color: #ffffff; /* White background for footer */
-    padding: 20px 0;
-    border-top: 1px solid #d0e0f0; /* Light blue border */
+    background-color: #007bff; /* Solid blue */
+    color: white;
     text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
 }
 
-.footer-container {
-    display: flex;
-    justify-content: center; /* Center the icons */
-}
-
-.social-icon {
-    display: inline-block;
+footer a {
+    color: white;
     margin: 0 10px;
+    text-decoration: none;
+    font-size: 24px;
 }
 
-.social-icon img {
-    width: 40px; /* Size of the social media icons */
-    height: 40px;
-    transition: opacity 0.3s;
+footer a:hover {
+    text-decoration: underline;
 }
 
-.social-icon img:hover {
-    opacity: 0.8; /* Slightly fade icons on hover */
-}
-.about-us {
-    padding: 20px;
-    background-color: #e0f7fa; /* Light cyan background to match the top tutors section */
-    border: 1px solid #b2ebf2; /* Light cyan border to match the top tutors section */
-    margin: 20px auto;
-    width: 80%;
-}
-
-.about-us h2 {
-    text-align: center;
-    color: #007bff; /* Blue color for the title */
-}
-
-.about-us p {
-    margin: 10px 0;
-    color: #333;
-    line-height: 1.6;
-}
-.tutor-profile {
-    padding: 20px;
-    background-color: #f9f9f9; /* Light grey background for profiles */
-    border: 1px solid #ddd; /* Grey border */
-    margin: 20px auto;
-    width: 80%;
-}
-
-.tutor-profile h2 {
-    text-align: center;
-    color: #007bff; /* Blue color for profile titles */
-}
-
-.tutor-profile-photo {
-    display: block;
-    margin: 0 auto 20px; /* Center image and add bottom margin */
-    width: 150px; /* Size of the profile photo */
-    height: 150px;
-    border-radius: 50%; /* Circular profile photo */
-}
-
-.tutor-profile p {
-    color: #333;
-    line-height: 1.6;
-}
-
-.tutor-profile ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 10px 0;
-}
-
-.tutor-profile ul li {
-    background: #e0f7fa; /* Light cyan background for list items */
-    padding: 5px;
-    border-radius: 5px;
-    margin-bottom: 5px;
-}
-/* Existing CSS */
-
-.like-dislike-section {
-    margin-top: 20px;
-    text-align: center;
-}
-
-.like-dislike-section button {
-    margin-right: 10px;
-    padding: 5px 10px; /* Adjust padding as needed */
-    font-size: 14px; /* Adjust font size if needed */
-    width: 80px; /* Set desired width */
-    cursor: pointer;
-    border: none;
-    border-radius: 4px;
-    background-color: #007bff; /* Button background color */
-    color: #fff; /* Text color */
-}
-
-.like-dislike-section p {
+.course-list {
     display: flex;
-    align-items: center; /* Align icons and text vertically */
-    gap: 5px; /* Space between icon and text */
-    font-size: 16px; /* Font size for the text */
-    color: #333; /* Text color */
-    margin: 10px 0; /* Margin for spacing between sections */
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
 }
 
-.like-icon, .dislike-icon {
-    width: 24px; /* Size of the icons */
-    height: 24px;
+.course-item {
+    text-align: center;
+    max-width: 150px;
+    margin: 10px;
 }
 
-#like-count, #dislike-count {
-    font-size: 16px; /* Size of the count text */
+.course-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+.course-item p {
+    margin: 10px 0 0;
+    font-size: 16px;
+    color: #007bff; /* Blue text color */
+}
+
+form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+form label {
+    display: block;
+    margin: 10px 0 5px;
+    font-size: 16px;
+    color: #007bff; /* Blue text color */
+}
+
+form input, form select, form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+form button {
+    background-color: #007bff; /* Blue button */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+form button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+footer {
+    background-color: #007bff; /* Blue background */
+    color: white;
+    text-align: center;
+    padding: 10px; /* Reduced padding for a shorter footer */
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+footer p {
+    margin: 0;
+    font-size: 14px;
+}
+
+footer a {
+    color: white;
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+footer a:hover {
+    opacity: 0.8;
+}
+
+footer i {
+    font-size: 18px;
+}
+
+.tutor {
+    text-align: center;
+    margin: 20px;
+}
+
+.tutor img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tutor h2 {
+    font-size: 20px;
+    color: #007bff;
+}
+
+.tutor p {
+    font-size: 16px;
+    color: #333;
+}

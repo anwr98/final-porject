@@ -1,101 +1,68 @@
-<%@ page import="java.sql.*" %>
-<%
-    Integer tutorId = (Integer) session.getAttribute("tutor_id");
+<%@ page import="java.sql.*, java.io.*, javax.servlet.http.Part" %>
 
-    Connection conn = null;
-    PreparedStatement stmt = null;
+<%
+    // Ensure the tutor is logged in by checking session
+    String tutorId = (String) session.getAttribute("tutorId");
+    String notes = request.getParameter("notes");
+    Part profilePic = request.getPart("profilePic");
+
+    // Initialize variables
+    String profilePicPath = null;
+
+    // If a profile picture was uploaded
+    if (profilePic != null && profilePic.getSize() > 0) {
+        // Extract the filename from the content-disposition header
+        String header = profilePic.getHeader("content-disposition");
+        String fileName = header.substring(header.indexOf("filename=\"") + 10, header.lastIndexOf("\""));
+        profilePicPath = "images/" + fileName;
+
+        // Save the uploaded file
+        File fileSaveDir = new File(application.getRealPath("/") + profilePicPath);
+        profilePic.write(fileSaveDir.getAbsolutePath());
+    }
+   
 
     try {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/yourdbname", "root", "yourpassword");
+        // Load MySQL JDBC driver
+        Class.forName("com.mysql.jdbc.Driver");
 
-        if ("POST".equalsIgnoreCase(request.getMethod())) {
-            String aboutCourse = request.getParameter("about_course");
-            Part filePart = request.getPart("profile_picture"); // Retrieves profile picture from the form
-            String profilePicturePath = "images/default-profile.png"; // Default image path
-            
-            if (filePart != null) {
-                String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-                String uploadPath = getServletContext().getRealPath("") + "images/" + fileName;
-                filePart.write(uploadPath);
-                profilePicturePath = "images/" + fileName;
-            }
+        // Establish connection to the database
+        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/coding_courses", "root", "0503089535a")) {
 
-            // Update tutor profile
-            String sql = "UPDATE tutors SET profile_picture = ?, about_course = ? WHERE id = ?";
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, profilePicturePath);
-            stmt.setString(2, aboutCourse);
-            stmt.setInt(3, tutorId);
-            
-            int rowsUpdated = stmt.executeUpdate();
+            // SQL statement to update notes and profilePic (if available)
+            String sql = "UPDATE tutors SET notes = ?, profilePic = ? WHERE id = ?";
 
-            if (rowsUpdated > 0) {
-                response.sendRedirect("tutor-profile.jsp"); // Redirect to the profile page
-            } else {
-                response.sendRedirect("update-profile.jsp?error=true");
+            try (PreparedStatement stmt = con.prepareStatement(sql)) {
+                // Set the note value
+                stmt.setString(1, notes);
+
+                // If a new profile picture was uploaded, set the path; otherwise, keep the existing one
+                if (profilePicPath != null) {
+                    stmt.setString(2, profilePicPath);
+                } else {
+                    stmt.setNull(2, java.sql.Types.VARCHAR); // If no new profile picture, set NULL to skip update
+                }
+
+                // Set the tutor ID for the update
+                stmt.setString(3, tutorId);
+
+                // Execute the update statement
+                int n = stmt.executeUpdate();
+                out.println(n + " rows updated.");
             }
         }
-    } catch (Exception e) {
+
+        // Redirect to the profile page after update
+        response.sendRedirect("profile.jsp");
+
+    } catch (SQLException e) {
         e.printStackTrace();
-        response.sendRedirect("update-profile.jsp?error=true");
-    } finally {
-        if (stmt != null) try { stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
-        if (conn != null) try { conn.close(); } catch (SQLException e) { e.printStackTrace(); }
+        out.println("SQL Error: " + e.getMessage());
+    } catch (ClassNotFoundException e) {
+        e.printStackTrace();
+        out.println("Error: MySQL Driver not found");
+    } catch (IOException e) {
+        e.printStackTrace();
+        out.println("File Upload Error: " + e.getMessage());
     }
 %>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Profile</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <header>
-        <div class="header-container">
-            <a href="index.html" class="logo-link">
-                <img src="images/logo.png" alt="Courses Online Logo" class="logo">
-            </a>
-            <nav>
-                <ul>
-                    <li><a href="index.html">Home Page</a></li>
-                    <li><a href="login.html">Login</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-    
-    <div class="update-profile">
-        <h2>Update Your Profile</h2>
-        <form action="update-profile.jsp" method="post" enctype="multipart/form-data">
-            <label for="about_course">About the Course:</label>
-            <textarea id="about_course" name="about_course" rows="4" required></textarea>
-            
-            <label for="profile_picture">Profile Picture:</label>
-            <input type="file" id="profile_picture" name="profile_picture" accept="image/*">
-            
-            <button type="submit">Update Profile</button>
-        </form>
-        <% if ("true".equals(request.getParameter("error"))) { %>
-            <p style="color: red;">Profile update failed. Please try again.</p>
-        <% } %>
-    </div>
-    
-    <footer>
-        <div class="footer-container">
-            <a href="https://www.facebook.com" target="_blank" class="social-icon">
-                <img src="images/facebook-icon.png" alt="Facebook">
-            </a>
-            <a href="https://www.twitter.com" target="_blank" class="social-icon">
-                <img src="images/twitter-icon.png" alt="Twitter">
-            </a>
-            <a href="https://www.instagram.com" target="_blank" class="social-icon">
-                <img src="images/instagram-icon.png" alt="Instagram">
-            </a>
-        </div>
-    </footer>
-</body>
-</html>
-

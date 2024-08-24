@@ -1,42 +1,67 @@
-<%@ page import="java.sql.*" %>
+<%@ page import="java.sql.Connection, java.sql.DriverManager, java.sql.PreparedStatement, java.sql.ResultSet, java.sql.SQLException" %>
+
 <%
-    String username = request.getParameter("username");
+    // Retrieve login credentials from the form
+    String phone = request.getParameter("phone"); // Changed to phone, as used in your registration process
     String password = request.getParameter("password");
 
-    Connection conn = null;
-    PreparedStatement stmt = null;
-    ResultSet rs = null;
+    // Debugging output
+    out.println("Phone: " + phone);
+    out.println("Password: " + password);
+
+    boolean isValidUser = false;
+    String tutorName = "";
+    String tutorId = "";
+
+    // Check if phone and password are provided
+    if (phone == null || password == null) {
+        out.println("Error: Phone number and password are required.");
+        return;
+    }
 
     try {
-        // Load JDBC driver (replace with your database driver)
+        // Ensure you have the correct MySQL driver class for your version of MySQL
         Class.forName("com.mysql.jdbc.Driver");
-        
-        // Establish connection (replace with your DB URL, username, and password)
-        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/project", "root", "0503089535a");
-        
-        // Query to check credentials (modify according to your schema)
-        String sql = "SELECT * FROM users WHERE username=? AND password=?";
-        stmt = conn.prepareStatement(sql);
-        stmt.setString(1, username);
-        stmt.setString(2, password);
-        
-        rs = stmt.executeQuery();
 
-        if (rs.next()) {
-            // Authentication successful, redirect to tutor's profile page
-            session.setAttribute("tutor_id", rs.getInt("id")); // Store tutor ID in session
-            response.sendRedirect("tutor-profile.jsp"); // Redirect to profile page
-        } else {
-            // Authentication failed
-            response.sendRedirect("login.html?error=true");
+        // Establish connection to the database
+        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/coding_courses?enabledTLSProtocols=TLSv1.2", "root", "0503089535a")) {
+
+            // Prepare the SQL statement to check the tutor's credentials
+            String sql = "SELECT id, name FROM tutors WHERE phone = ? AND password = ?";
+            try (PreparedStatement stmt = con.prepareStatement(sql)) {
+                stmt.setString(1, phone); // Use phone here
+                stmt.setString(2, password);
+
+                // Execute the query
+                try (ResultSet rs = stmt.executeQuery()) {
+                    if (rs.next()) {
+                        isValidUser = true;
+                        tutorId = rs.getString("id");
+                        tutorName = rs.getString("name");
+                    }
+                }
+            }
         }
-    } catch (Exception e) {
+
+        // Redirect the tutor based on validation result
+        if (isValidUser) {
+            // Store the tutor's details in the session
+            session.setAttribute("tutorName", tutorName);
+            session.setAttribute("tutorId", tutorId);
+
+            // Redirect to the tutor's profile page (dynamic or static)
+            response.sendRedirect("profile.jsp");
+        } else {
+            // Display an error message if login failed
+            out.println("Invalid phone number or password. Please try again.");
+        }
+
+    } catch (SQLException e) {
         e.printStackTrace();
-        response.sendRedirect("login.html?error=true");
-    } finally {
-        // Close resources
-        if (rs != null) try { rs.close(); } catch (SQLException e) { e.printStackTrace(); }
-        if (stmt != null) try { stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
-        if (conn != null) try { conn.close(); } catch (SQLException e) { e.printStackTrace(); }
+        out.println("SQL Error: " + e.getMessage());
+    } catch (ClassNotFoundException e) {
+        e.printStackTrace();
+        out.println("Error: MySQL Driver not found.");
     }
 %>
+

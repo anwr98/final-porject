@@ -3,91 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Courses</title>
+    <title>Online Coding Courses</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Smooth scrolling behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <div class="header-container">
-            <a href="index.html" class="logo-link">
-                <img src="images/logo.png" alt="Courses Online Logo" class="logo">
-            </a>
-            <nav>
-                <ul>
-                    <li><a href="index.html">Home Page</a></li>
-                    <li><a href="login.html">Login</a></li>
-                    <li><a href="contact.html">Contact Us</a></li>
-                </ul>
-            </nav>
+        <div id="logo-container">
+            <img src="images/logo.png" alt="Courses Online" id="logo" onclick="location.href='index.html';">
         </div>
+        <nav>
+            <ul>
+                <li><a href="index.html#about">Home</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#courses">Our Courses</a></li>
+                <li><a href="#contact">Contact Us</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+        </nav>
     </header>
-    
-    <div class="top-tutors">
-        <h2>Top 5 Tutors</h2>
-        <ul>
-            <li>
-                <img src="images/tutor1.jpg" alt="Tutor 1" class="tutor-photo">
-                <div class="tutor-info">
-                    <h3><a href="profile-emily.html">Dr. Emily Adams</a></h3>
-                    <p>Mathematics Specialist</p>
-                    
-                </div>
-            </li>
-            <li>
-                <img src="images/tutor2.jpg" alt="Tutor 2" class="tutor-photo">
-                <div class="tutor-info">
-                    <h3><a href="profile-john.html">Mr. John Smith</a></h3>
-                    <p>Web Development Expert</p>
-                   
-                </div>
-            </li>
-            <li>
-                <img src="images/tutor3.jpg" alt="Tutor 3" class="tutor-photo">
-                <div class="tutor-info">
-                    <h3><a href="profile-sarah.html">Ms. Sarah Johnson</a></h3>
-                    <p>Data Science Guru</p>
-                   
-                </div>
-            </li>
-            <li>
-                <img src="images/tutor4.jpg" alt="Tutor 4" class="tutor-photo">
-                <div class="tutor-info">
-                    <h3><a href="profile-michael.html">Dr. Michael Lee</a></h3>
-                    <p>Algorithms & Programming</p>
-                    
-                </div>
-            </li>
-            <li>
-                <img src="images/tutor5.jpg" alt="Tutor 5" class="tutor-photo">
-                <div class="tutor-info">
-                    <h3><a href="profile-laura.html">Ms. Laura Brown</a></h3>
-                    <p>Artificial Intelligence</p>
-                    
-                </div>
-            </li>
-        </ul>
-    </div>
 
-    <div class="about-us">
-        <h2>About Us</h2>
-        <p>Welcome to Courses Online! We offer a variety of online courses designed to help you advance your skills and knowledge. Our platform connects you with top tutors who are experts in their fields, providing you with the highest quality education from the comfort of your home.</p>
-        <p>Whether you're looking to learn coding, math, or any other subject, we're here to help you achieve your goals with flexible and accessible online courses. Join our community today and start your learning journey!</p>
-    </div>
-    
+    <main>
+        <section id="about">
+            <h2>About Us</h2>
+            <p>Welcome to our online coding courses platform. We offer a variety of courses to help you learn and excel in programming.</p>
+        </section>
+
+        <section id="courses">
+            <h2>Our Courses</h2>
+            <div class="course-list">
+                <div class="course-item">
+                    <a href="javascript-tutors.html">
+                        <img src="images/javascript.png" alt="JavaScript">
+                        <p>JavaScript</p>
+                    </a>
+                </div>
+                <div class="course-item">
+                    <a href="css-tutors.html">
+                        <img src="images/css.png" alt="CSS">
+                        <p>CSS</p>
+                    </a>
+                </div>
+                <div class="course-item">
+                    <a href="html-tutors.html">
+                        <img src="images/html.png" alt="HTML">
+                        <p>HTML</p>
+                    </a>
+                </div>
+                <div class="course-item">
+                    <a href="jquery-tutors.html">
+                        <img src="images/jquery.png" alt="jQuery">
+                        <p>jQuery</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2>Contact Us</h2>
+            <form action="contact-process.html" method="post">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="phone">Phone Number:</label>
+                <input type="tel" id="phone" name="phone" required>
+
+                <label for="course">Select a Course:</label>
+                <select id="course" name="course" required>
+                    <option value="javascript">JavaScript</option>
+                    <option value="css">CSS</option>
+                    <option value="html">HTML</option>
+                    <option value="jquery">jQuery</option>
+                </select>
+
+                <label for="note">Note:</label>
+                <textarea id="note" name="note" rows="4" required></textarea>
+
+                <button type="submit">Submit</button>
+            </form>
+        </section>
+    </main>
+
     <footer>
-        <div class="footer-container">
-            <a href="https://www.facebook.com" target="_blank" class="social-icon">
-                <img src="images/facebook-icon.png" alt="Facebook">
-            </a>
-            <a href="https://www.twitter.com" target="_blank" class="social-icon">
-                <img src="images/twitter-icon.png" alt="Twitter">
-            </a>
-            <a href="https://www.instagram.com" target="_blank" class="social-icon">
-                <img src="images/instagram-icon.png" alt="Instagram">
-            </a>
+        <div class="footer-content">
+            <p>Follow us:</p>
+            <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
         </div>
     </footer>
 
-    
+    <script src="script.js"></script>
 </body>
 </html>
