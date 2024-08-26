@@ -1,4 +1,4 @@
-<%@ page import="java.sql.*" %>
+<%@ page import="java.sql.Connection, java.sql.DriverManager, java.sql.PreparedStatement, java.sql.SQLException" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,7 +34,7 @@
                         Class.forName("com.mysql.jdbc.Driver");
 
                         // Establish connection to the database
-                        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/coding_courses", "root", "0503089535a")) {
+                        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/coding_courses?enabledTLSProtocols=TLSv1.2", "root", "0503089535a")) {
 
                             // SQL query to get all tutors for the specified course
                             String sql = "SELECT * FROM tutors WHERE course = ?";

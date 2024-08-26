@@ -1,22 +1,16 @@
+/* General Page Styling */
 body {
     font-family: Arial, sans-serif;
-    background-color: #e6f7ff; /* Light blue color scheme */
+    background-color: #e6f7ff; /* Light blue background */
     margin: 0;
     padding: 0;
 }
 
 header {
-    background-color: #007bff; /* Solid blue */
+    background-color: #007bff;
     color: white;
-    padding: 10px 0;
-    display: flex;
-    align-items: center;
-}
-
-#logo-container {
-    flex: 1;
-    text-align: left;
-    padding-left: 20px;
+    padding: 10px;
+    text-align: center;
 }
 
 #logo {
@@ -24,21 +18,16 @@ header {
     cursor: pointer;
 }
 
-nav {
-    flex: 3;
-    text-align: right;
-    padding-right: 20px;
-}
-
 nav ul {
     list-style-type: none;
-    margin: 0;
     padding: 0;
+    text-align: right;
+    margin: 0;
 }
 
 nav ul li {
     display: inline;
-    margin: 0 15px;
+    margin-right: 20px;
 }
 
 nav ul li a {
@@ -46,143 +35,61 @@ nav ul li a {
     text-decoration: none;
 }
 
-section {
+main {
     padding: 20px;
-}
-
-footer {
-    background-color: #007bff; /* Solid blue */
-    color: white;
     text-align: center;
-    padding: 10px 0;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
 }
 
-footer a {
-    color: white;
-    margin: 0 10px;
-    text-decoration: none;
-    font-size: 24px;
-}
-
-footer a:hover {
-    text-decoration: underline;
-}
-
-.course-list {
+/* Styling the tutor cards */
+.tutor-list {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
+    justify-content: space-around; /* Centers the items */
+    gap: 20px; /* Space between the cards */
 }
 
-.course-item {
-    text-align: center;
-    max-width: 150px;
-    margin: 10px;
-}
-
-.course-item img {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.course-item p {
-    margin: 10px 0 0;
-    font-size: 16px;
-    color: #007bff; /* Blue text color */
-}
-
-form {
-    max-width: 600px;
-    margin: 0 auto;
+.tutor-item {
+    background-color: #ffffff; /* White background for the card */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
     padding: 20px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-form label {
-    display: block;
-    margin: 10px 0 5px;
-    font-size: 16px;
-    color: #007bff; /* Blue text color */
-}
-
-form input, form select, form textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 16px;
-}
-
-form button {
-    background-color: #007bff; /* Blue button */
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-form button:hover {
-    background-color: #0056b3; /* Darker blue on hover */
-}
-
-footer {
-    background-color: #007bff; /* Blue background */
-    color: white;
+    width: 250px; /* Fixed width for each card */
     text-align: center;
-    padding: 10px; /* Reduced padding for a shorter footer */
-    position: fixed;
-    bottom: 0;
-    width: 100%;
 }
 
-footer p {
-    margin: 0;
-    font-size: 14px;
+.tutor-item img {
+    border-radius: 50%; /* Circular profile picture */
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-bottom: 15px;
 }
 
-footer a {
-    color: white;
-    margin: 0 10px;
+.tutor-name {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #007bff; /* Color for the tutor's name */
+}
+
+.tutor-phone,
+.tutor-about {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.tutor-phone a {
+    color: #007bff; /* Link color for the phone number */
     text-decoration: none;
 }
 
-footer a:hover {
-    opacity: 0.8;
-}
-
-footer i {
-    font-size: 18px;
-}
-
-.tutor {
+footer {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
     text-align: center;
-    margin: 20px;
-}
-
-.tutor img {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.tutor h2 {
-    font-size: 20px;
-    color: #007bff;
-}
-
-.tutor p {
-    font-size: 16px;
-    color: #333;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
 }

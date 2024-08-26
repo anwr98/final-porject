@@ -1,36 +1,37 @@
 <%@ page import="java.sql.*" %>
+
 <%
-    String tutorName = (String) session.getAttribute("tutorName");
+    // Retrieve tutor ID from session
     String tutorId = (String) session.getAttribute("tutorId");
 
-    // Ensure the tutor is logged in
-    if (tutorName == null || tutorId == null) {
-        response.sendRedirect("login.html");
-        return;
-    }
-
+    // Initialize variables to hold profile data
     String notes = "";
-    String profilePicture = "";
+    String profilePic = "";
 
-    // Retrieve tutor details from the database
     try {
+        // Load MySQL JDBC Driver
         Class.forName("com.mysql.jdbc.Driver");
-        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/coding_courses", "root", "0503089535a")) {
+
+        // Establish connection to the database
+        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/coding_courses?enabledTLSProtocols=TLSv1.2", "root", "0503089535a")) {
+            // Query to retrieve the tutor's notes and profile picture
             String sql = "SELECT notes, profilePic FROM tutors WHERE id = ?";
             try (PreparedStatement stmt = con.prepareStatement(sql)) {
-                stmt.setString(1, tutorId);
+                stmt.setString(1, tutorId);  // Set tutor ID
+                ResultSet rs = stmt.executeQuery();
 
-                try (ResultSet rs = stmt.executeQuery()) {
-                    if (rs.next()) {
-                        notes = rs.getString("notes");
-                        profilePicture = rs.getString("profilePic");
-                    }
+                if (rs.next()) {
+                    notes = rs.getString("notes");  // Retrieve notes
+                    profilePic = rs.getString("profilePic");  // Retrieve profile picture path
                 }
             }
         }
-    } catch (Exception e) {
+    } catch (SQLException e) {
         e.printStackTrace();
-        out.println("Error: " + e.getMessage());
+        out.println("SQL Error: " + e.getMessage());
+    } catch (ClassNotFoundException e) {
+        e.printStackTrace();
+        out.println("Error: MySQL Driver not found.");
     }
 %>
 
@@ -39,7 +40,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile - <%= tutorName %></title>
+    <title>Tutor Profile</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -49,29 +50,39 @@
         </div>
         <nav>
             <ul>
-                <li><a href="index.html#about">Home</a></li>
-                <li><a href="index.html#about">About Us</a></li>
-                <li><a href="index.html#courses">Our Courses</a></li>
-                <li><a href="index.html#contact">Contact Us</a></li>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="courses.html">Our Courses</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
                 <li><a href="logout.jsp">Logout</a></li>
             </ul>
         </nav>
     </header>
 
-    <main>
-        <h1>Tutor Profile: <%= tutorName %></h1>
-        <img src="<%= profilePicture %>" alt="Profile Picture" style="width:150px;height:auto;">
-        <p><strong>About Me:</strong> <%= notes %></p>
+    <main class="content-wrapper">
+        <h1>Tutor Profile: <%= session.getAttribute("tutorName") %></h1>
 
-        <form action="update-profile.jsp" method="post" enctype="multipart/form-data">
-            <label for="notes">Add/Edit Note:</label>
-            <textarea id="notes" name="notes" rows="4" cols="50"><%= notes %></textarea>
+        <div class="profile-container">
+            <!-- Display profile picture or default image -->
+            <img src="<%= profilePic != null && !profilePic.isEmpty() ? profilePic : "images/default.png" %>" alt="Profile Picture" class="profile-picture">
 
-            <label for="profilePic">Upload Profile Picture:</label>
-            <input type="file" id="profilePic" name="profilePic" accept="image/*">
+            <div class="profile-info">
+                <!-- Display notes or fallback text -->
+                <p><strong>About Me:</strong> <%= notes != null && !notes.isEmpty() ? notes : "No notes available." %></p>
 
-            <button type="submit">Update Profile</button>
-        </form>
+                <!-- Form to update notes and profile picture -->
+                <form action="update-profile.jsp" method="post" enctype="multipart/form-data">
+                    <label for="notes">Add/Edit Note:</label>
+                    <textarea id="notes" name="notes" rows="4" cols="50"><%= notes != null ? notes : "" %></textarea>
+                
+                    <label for="profilePic">Upload Profile Picture:</label>
+                    <input type="file" id="profilePic" name="profilePic" accept="image/*">
+                
+                    <button type="submit">Update Profile</button>
+                </form>
+                
+            </div>
+        </div>
     </main>
 
     <footer>

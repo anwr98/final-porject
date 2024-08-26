@@ -1,4 +1,4 @@
-<%@ page import="java.sql.*" %>
+<%@ page import="java.sql.Connection, java.sql.DriverManager, java.sql.PreparedStatement, java.sql.SQLException" %>
 <%
     String course = "";
     String path = request.getServletPath();
@@ -16,9 +16,7 @@
     PreparedStatement pst = null;
     ResultSet rs = null;
     
-    try {
-        // Establish database connection
-        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/coding_courses", "root", "0503089535a");
+    try { conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/coding_courses", "root", "0503089535a");
         
         // Prepare SQL query to retrieve tutors for the selected course
         String sql = "SELECT * FROM tutors WHERE FIND_IN_SET(?, courses)";
