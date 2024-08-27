@@ -450,3 +450,83 @@ button:hover {
             cursor: pointer;
         }
     
+/* Explore Courses Button Styling */
+.cta-button {
+    display: inline-block;
+    padding: 15px 30px;
+    background-color: #ffdd57;
+    color: #007bff;
+    text-decoration: none;
+    border-radius: 50px;
+    font-size: 20px;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.cta-button:hover {
+    background-color: #e6b800;
+    color: #ffffff;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.cta-button:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Hero Section Styling */
+#hero {
+    background-image: url(images/hero-bg.jpg); /* Replace with your image path */
+    background-size: cover;  /* Make sure the image covers the entire section */
+    background-position: center;  /* Center the image */
+    background-repeat: no-repeat;  /* Prevent the image from repeating */
+    height: 100vh;  /* Set the height of the hero section */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    text-align: center;
+    color: white;  /* Change the text color to white */
+}
+
+/* Optional: Add a dark overlay to make the text more readable */
+#hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);  /* Semi-transparent black overlay */
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;  /* Ensure the content is above the overlay */
+}
+
+.hero-content h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.hero-content .cta-button {
+    padding: 15px 30px;
+    background-color: #ffdd57;
+    color: #007bff;
+    text-decoration: none;
+    border-radius: 50px;
+    font-size: 20px;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.hero-content .cta-button:hover {
+    background-color: #e6b800;
+    color: white;
+}
