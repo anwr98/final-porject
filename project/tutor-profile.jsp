@@ -9,20 +9,20 @@
         return;
     }
 
-    // Fetch the tutor's details from the database using the tutorId
+    // Variables to hold tutor details
     String tutorName = "", tutorPhone = "", tutorNotes = "", tutorProfilePic = "";
     double averageRating = 0;
     int totalRatings = 0;
 
     // Initialize the comments list
-    List<String> comments = new ArrayList<>();
+    List<Map<String, String>> commentsAndRatings = new ArrayList<>();
 
     try {
         Class.forName("com.mysql.jdbc.Driver");
 
         try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/coding_courses?enabledTLSProtocols=TLSv1.2", "root", "0503089535a")) {
 
-            // Fetch tutor details (excluding rating)
+            // Fetch tutor details
             String sql = "SELECT name, phone, notes, profilePic FROM tutors WHERE id = ?";
             try (PreparedStatement stmt = con.prepareStatement(sql)) {
                 stmt.setString(1, tutorId);
@@ -39,19 +39,22 @@
                 }
             }
 
-            // Fetch comments for the tutor
-            String commentSql = "SELECT comment FROM comments WHERE tutor_id = ?";
+            // Fetch comments and ratings for the tutor
+            String commentSql = "SELECT comment, rating FROM comments WHERE tutor_id = ?";
             try (PreparedStatement commentStmt = con.prepareStatement(commentSql)) {
-                commentStmt.setInt(1, Integer.parseInt(tutorId)); // Use Integer.parseInt() if tutorId is stored as an INT
+                commentStmt.setInt(1, Integer.parseInt(tutorId));
                 ResultSet commentRs = commentStmt.executeQuery();
 
                 while (commentRs.next()) {
-                    comments.add(commentRs.getString("comment"));
+                    Map<String, String> commentRating = new HashMap<>();
+                    commentRating.put("comment", commentRs.getString("comment"));
+                    commentRating.put("rating", String.valueOf(commentRs.getInt("rating")));
+                    commentsAndRatings.add(commentRating);
                 }
             }
 
             // Fetch average rating and total ratings count
-            String ratingSql = "SELECT AVG(rating) AS avgRating, COUNT(rating) AS totalRatings FROM ratings WHERE tutor_id = ?";
+            String ratingSql = "SELECT AVG(rating) AS avgRating, COUNT(rating) AS totalRatings FROM comments WHERE tutor_id = ?";
             try (PreparedStatement ratingStmt = con.prepareStatement(ratingSql)) {
                 ratingStmt.setInt(1, Integer.parseInt(tutorId));
                 ResultSet ratingRs = ratingStmt.executeQuery();
@@ -75,6 +78,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile of <%= tutorName %></title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
 </head>
 <body>
     <header>
@@ -91,21 +96,46 @@
         </nav>
     </header>
 
-    <main>
-        <h1>Profile of <%= tutorName %></h1>
-        <div class="tutor-profile">
-            <img src="<%= tutorProfilePic != null ? tutorProfilePic : "images/default.png" %>" alt="<%= tutorName %>" class="profile-picture-large">
+    <main class="tutor-profile-container">
+        <div class="profile-card">
+            <img src="<%= tutorProfilePic != null ? tutorProfilePic : "images/default.png" %>" alt="<%= tutorName %>">
+            <h1><%= tutorName %></h1>
             <p><strong>Phone Number:</strong> <a href="tel:<%= tutorPhone %>"><%= tutorPhone %></a></p>
             <p><strong>About Me:</strong> <%= tutorNotes != null ? tutorNotes : "No notes available." %></p>
+            <div class="rating-summary">
+                <strong>Average Rating:</strong>
+                <p><%= averageRating %> / 5 based on <%= totalRatings %> ratings.</p>
+            </div>
+        </div>
 
-            <!-- Display Average Rating -->
-            <h2>Average Rating:</h2>
-            <p><strong><%= averageRating %> / 5</strong> based on <%= totalRatings %> ratings.</p>
+        <!-- Comments Section -->
+        <div class="comment-section">
+            <h2>Comments:</h2>
+            <% if (commentsAndRatings.isEmpty()) { %>
+                <p>No comments found for this tutor.</p>
+            <% } else { %>
+                <ul>
+                <% for (Map<String, String> commentRating : commentsAndRatings) { %>
+                    <li class="comment-item">
+                        <div class="comment-avatar">
+                            <img src="images/default.png" alt="User Avatar">
+                        </div>
+                        <div class="comment-content">
+                            <strong>Anonymous</strong>
+                            <p><%= commentRating.get("comment") %></p>
+                            <p>Rating: <%= commentRating.get("rating") %> / 5</p>
+                        </div>
+                    </li>
+                <% } %>
+                </ul>
+            <% } %>
+        </div>
 
-            <!-- Rating Form -->
-            <h2>Rate this Tutor:</h2>
-            <form id="ratingForm" action="rate-tutor.jsp" method="post">
+        <!-- Comment Form -->
+        <div class="comment-form">
+            <form id="commentForm" action="add-note.jsp" method="post">
                 <input type="hidden" name="tutorId" value="<%= tutorId %>">
+                
                 <label for="rating">Rate this tutor:</label>
                 <select name="rating" id="rating" required>
                     <option value="1">1</option>
@@ -114,29 +144,12 @@
                     <option value="4">4</option>
                     <option value="5">5</option>
                 </select>
-                <button type="submit">Submit Rating</button>
+                
+                <label for="comment">Add a Comment:</label>
+                <textarea name="comment" id="comment" rows="4" required></textarea>
+                
+                <button type="submit">Post Comment and Rating</button>
             </form>
-
-            <!-- Comment Form -->
-            <form id="commentForm" action="add-note.jsp" method="post">
-                <input type="hidden" name="tutorId" value="<%= tutorId %>">
-                <label for="note">Add a Comment:</label>
-                <textarea name="note" id="note" rows="4" required></textarea>
-                <button type="submit">Add Comment</button>
-            </form>
-
-            <!-- Display Existing Comments -->
-            <h2>Comments:</h2>
-            <% if (comments.isEmpty()) { %>
-                <p>No comments found for this tutor.</p>
-            <% } else { %>
-                <ul>
-                <% for (String comment : comments) { %>
-                    <li><%= comment %></li>
-                <% } %>
-                </ul>
-            <% } %>
-
         </div>
     </main>
 

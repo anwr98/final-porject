@@ -60,55 +60,6 @@ nav ul li a:hover {
     color: #ffdd57;
 }
 
-/* Hero Section */
-#hero {
-    background-image: url('images/hero-background.jpg');
-    background-size: cover;
-    background-position: center;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    text-align: center;
-    position: relative;
-}
-
-#hero::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Dark overlay */
-}
-
-.hero-content {
-    position: relative;
-    z-index: 1;
-    text-align: center;
-}
-
-.hero-content h1 {
-    font-size: 3rem;
-    margin-bottom: 20px;
-}
-
-.cta-button {
-    padding: 15px 30px;
-    background-color: #ffdd57;
-    color: #007bff;
-    text-decoration: none;
-    border-radius: 5px;
-    font-size: 18px;
-    transition: background-color 0.3s ease;
-}
-
-.cta-button:hover {
-    background-color: #e6b800;
-}
-
 /* Section Styling */
 section {
     padding: 50px 20px;
@@ -220,14 +171,110 @@ footer a:hover {
     opacity: 0.7;
 }
 
-/* Tutor List */
-#tutor-list-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Create a responsive grid */
-    gap: 20px; /* Spacing between tutor cards */
+/* Tutor Profile Card Styling */
+.tutor-profile-card {
+    background-color: #fff;
     padding: 20px;
+    margin: 50px auto;
+    max-width: 800px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
+.profile-header {
+    text-align: center;
+}
+
+.profile-picture-large {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.comments-section {
+    margin-top: 20px;
+}
+
+.comments-section h3 {
+    font-size: 20px;
+    color: #007bff;
+    margin-bottom: 15px;
+}
+
+.comment-card {
+    display: flex;
+    align-items: flex-start;
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+}
+
+.user-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.comment-content {
+    flex-grow: 1;
+}
+
+.comment-form-section {
+    margin-top: 30px;
+}
+
+.comment-form-section h3 {
+    font-size: 20px;
+    color: #007bff;
+    margin-bottom: 15px;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+.comment-profile-picture {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+    display: inline-block;
+    vertical-align: middle;
+}
+/* Container for tutor list */
+#tutor-list-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid */
+    gap: 20px; /* Space between tutor cards */
+    padding: 20px;
+    justify-items: center; /* Center align cards */
+}
+
+/* Styling each tutor card */
 .tutor-item {
     background-color: white;
     border-radius: 10px;
@@ -235,20 +282,25 @@ footer a:hover {
     text-align: center;
     padding: 20px;
     transition: transform 0.3s ease;
+    width: 100%; /* Makes sure the card fills the column */
+    max-width: 300px; /* Sets max width for each card */
 }
 
+/* Hover effect for the tutor card */
 .tutor-item:hover {
-    transform: translateY(-10px); /* Add a hover effect */
+    transform: translateY(-10px); /* Lifts the card on hover */
 }
 
+/* Styling the tutor's profile picture */
 .tutor-item img {
-    width: 100px; /* Set a consistent size for tutor images */
+    width: 100px; /* Profile picture size */
     height: 100px;
     border-radius: 50%;
     margin-bottom: 10px;
     object-fit: cover;
 }
 
+/* Tutor name and other details */
 .tutor-item h2 {
     font-size: 20px;
     color: #007bff;
@@ -261,6 +313,7 @@ footer a:hover {
     margin: 5px 0;
 }
 
+/* Phone number link styling */
 .tutor-item a {
     color: #007bff;
     text-decoration: none;
@@ -271,66 +324,129 @@ footer a:hover {
 }
 
 /* Tutor Profile Section */
-.tutor-profile {
+
+.tutor-profile-container {
     display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
     flex-direction: column;
-    align-items: center;
-    background-color: white;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 800px;
-    margin: 20px auto;
+    width: 60%; /* Set a fixed width for the profile container */
+    margin: 0 auto; /* Horizontally center the container */
 }
+        
+        .profile-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 50px;
+            text-align: center;
+            width: 800px;
+        }
 
-.profile-picture-large {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    margin-bottom: 20px;
-}
+        .profile-card img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
 
-.tutor-profile h1, .tutor-profile h2 {
-    font-size: 24px;
-    color: #007bff;
-    margin-bottom: 10px;
-}
+        .profile-card h1 {
+            margin-bottom: 10px;
+            font-size: 50px;
+            color: #282bdb;
+        }
 
-.tutor-profile p {
-    font-size: 18px;
-    color: #333;
-    margin: 5px 0;
-}
+        .profile-card p {
+            margin: 5px 0;
+            font-size: 25px;
+            color: #555;
+        }
 
-.tutor-profile a {
-    color: #007bff;
-    text-decoration: none;
-}
+        .rating-summary {
+            margin: 20px 0;
+            font-size: 18px;
+            color: #ffdd57;
+        }
 
-.tutor-profile a:hover {
-    text-decoration: underline;
-}
+        .comment-section {
+            background-color: #f9f9f9;
+            padding: 50px;
+            margin-top: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 800px;
+        }
 
-/* Comments Section */
-.comments-section {
-    max-width: 600px;
-    margin: 20px auto;
-}
+        .comment-section ul {
+            list-style: none;
+            padding: 0;
+        }
 
-.comments-section ul {
-    list-style-type: none;
-    padding: 0;
-}
+        .comment-item {
+            background-color: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+        }
 
-.comments-section li {
-    background-color: #f9f9f9;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 10px;
-}
+        .comment-avatar img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
 
-.comments-section h2 {
-    margin-bottom: 20px;
-}
+        .comment-content {
+            flex: 1;
+        }
+
+        .comment-content strong {
+            font-size: 25px;
+            margin-bottom: 5px;
+            display: block;
+            color: blue;
+        }
+
+        .comment-content p {
+            margin: 0;
+            font-size: 20px;
+            
+        }
+
+        .comment-form {
+            margin-top: 30px;
+            margin-bottom: 30px;
+            padding: 50px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 800px;
+        }
+
+        .comment-form label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .comment-form textarea,
+        .comment-form select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+
+        .comment-form button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    

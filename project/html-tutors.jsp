@@ -1,7 +1,7 @@
 <%@ page import="java.sql.*" %>
 
 <%
-    String course = "HTML";
+    String course = "html";
 
     try {
         Class.forName("com.mysql.jdbc.Driver");
@@ -18,7 +18,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML Tutors</title>
+    <title><html></html> Tutors</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -37,9 +37,9 @@
     </header>
 
     <main>
-        <h1>HTML Tutors</h1>
+        <h1><html></html> Tutors</h1>
         <div id="tutor-list-container">
-<%
+            <%
                 if (!rs.isBeforeFirst()) {
                     out.println("<p>No tutors found for the course: " + course + "</p>");
                 } else {
@@ -49,7 +49,7 @@
                         String tutorPhone = rs.getString("phone");
                         String tutorNotes = rs.getString("notes");
                         String tutorProfilePic = rs.getString("profilePic");
-%>
+            %>
                         <div class="tutor-item">
                             <a href="tutor-profile.jsp?tutorId=<%= tutorId %>">
                                 <img src="<%= tutorProfilePic != null ? tutorProfilePic : "images/default.png" %>" alt="<%= tutorName %>" class="profile-picture">
@@ -58,11 +58,12 @@
                             <p><strong>Phone Number:</strong> <a href="tel:<%= tutorPhone %>"><%= tutorPhone %></a></p>
                             <p><strong>About Me:</strong> <%= tutorNotes != null ? tutorNotes : "No notes available." %></p>
                         </div>
-<%
+            <%
                     }
                 }
-%>
-        </div>
+            %>
+            </div>
+            
     </main>
 
     <footer>

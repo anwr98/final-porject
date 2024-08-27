@@ -1,31 +1,50 @@
 <%@ page import="java.sql.*" %>
 
 <%
-    // Get the comment and tutorId from the form
     String tutorId = request.getParameter("tutorId");
-    String note = request.getParameter("note");
+    String comment = request.getParameter("comment");
+    String ratingStr = request.getParameter("rating");
+    int rating = 0;
+
+    if (comment == null || comment.trim().isEmpty()) {
+        out.println("Error: Comment cannot be empty.");
+        return;
+    }
+
+    try {
+        rating = Integer.parseInt(ratingStr); // Ensure the rating is an integer
+    } catch (NumberFormatException e) {
+        out.println("Error: Invalid rating.");
+        return;
+    }
 
     try {
         Class.forName("com.mysql.jdbc.Driver");
 
         try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/coding_courses?enabledTLSProtocols=TLSv1.2", "root", "0503089535a")) {
 
-            // Insert the comment into the comments table
-            String sql = "INSERT INTO comments (tutor_id, comment) VALUES (?, ?)";
+            String sql = "INSERT INTO comments (tutor_id, comment, rating) VALUES (?, ?, ?)";
             try (PreparedStatement stmt = con.prepareStatement(sql)) {
-                stmt.setString(1, tutorId);
-                stmt.setString(2, note);
+                stmt.setInt(1, Integer.parseInt(tutorId));
+                stmt.setString(2, comment);
+                stmt.setInt(3, rating);
 
-                // Execute the insert statement
-                stmt.executeUpdate();
+                int rowsInserted = stmt.executeUpdate();
+                if (rowsInserted > 0) {
+                    response.sendRedirect("tutor-profile.jsp?tutorId=" + tutorId);
+                } else {
+                    out.println("Error: Unable to add comment and rating.");
+                }
             }
         }
-
-        // Redirect back to the tutor's profile page after comment submission
-        response.sendRedirect("tutor-profile.jsp?tutorId=" + tutorId);
-
-    } catch (SQLException | ClassNotFoundException e) {
+    } catch (SQLException e) {
         e.printStackTrace();
-        out.println("An error occurred while adding the comment.");
+        out.println("SQL Error: " + e.getMessage());
+    } catch (ClassNotFoundException e) {
+        e.printStackTrace();
+        out.println("Error: MySQL Driver not found.");
     }
 %>
+
+
+
