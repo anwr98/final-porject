@@ -8,13 +8,6 @@
     String password = request.getParameter("password");
     String course = request.getParameter("course");
 
-    // Debugging output (you can remove this later)
-    out.println("Name: " + name);
-    out.println("Email: " + email);
-    out.println("Phone: " + phone);
-    out.println("Password: " + password);
-    out.println("Course: " + course);
-
     try {
         // Load the MySQL JDBC Driver
         Class.forName("com.mysql.jdbc.Driver");
@@ -34,17 +27,14 @@
                 // Execute the SQL statement
                 int rowsInserted = stmt.executeUpdate();
 
-                // Confirm whether the insertion was successful
+                // Redirect the tutor to the login page after successful registration
                 if (rowsInserted > 0) {
-                    out.println("<p>Tutor successfully registered!</p>");
+                    response.sendRedirect("login.html?success=true");
                 } else {
                     out.println("<p>Registration failed. Please try again.</p>");
                 }
             }
         }
-
-        // Redirect the tutor to the login page after successful registration
-        response.sendRedirect("login.html");
 
     } catch (SQLException e) {
         // Print any SQL errors that occur

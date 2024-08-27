@@ -1,4 +1,4 @@
-/* General Page Styling */
+/* General Body Styling */
 body {
     font-family: Arial, sans-serif;
     background-color: #e6f7ff; /* Light blue background */
@@ -6,11 +6,24 @@ body {
     padding: 0;
 }
 
+/* Header */
 header {
-    background-color: #007bff;
+    background-color: #007bff; /* Solid blue */
     color: white;
-    padding: 10px;
-    text-align: center;
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#logo-container {
+    flex: 1;
+    text-align: left;
+    padding-left: 20px;
 }
 
 #logo {
@@ -18,78 +31,306 @@ header {
     cursor: pointer;
 }
 
+nav {
+    flex: 3;
+    text-align: right;
+    padding-right: 20px;
+}
+
 nav ul {
     list-style-type: none;
-    padding: 0;
-    text-align: right;
     margin: 0;
+    padding: 0;
+    display: flex;
 }
 
 nav ul li {
     display: inline;
-    margin-right: 20px;
+    margin: 0 15px;
 }
 
 nav ul li a {
     color: white;
     text-decoration: none;
+    font-size: 16px;
+    transition: color 0.3s ease;
 }
 
-main {
-    padding: 20px;
+nav ul li a:hover {
+    color: #ffdd57;
+}
+
+/* Hero Section */
+#hero {
+    background-image: url('images/hero-background.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+    position: relative;
+}
+
+#hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Dark overlay */
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
     text-align: center;
 }
 
-/* Styling the tutor cards */
-.tutor-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around; /* Centers the items */
-    gap: 20px; /* Space between the cards */
+.hero-content h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.cta-button {
+    padding: 15px 30px;
+    background-color: #ffdd57;
+    color: #007bff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 18px;
+    transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: #e6b800;
+}
+
+/* Section Styling */
+section {
+    padding: 50px 20px;
+}
+
+/* Course List */
+#courses .course-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    justify-content: center;
+}
+
+.course-item {
+    text-align: center;
+    transition: transform 0.3s ease;
+    max-width: 200px;
+    margin: 0 auto;
+}
+
+.course-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.course-item p {
+    margin-top: 10px;
+    font-size: 18px;
+    color: #007bff;
+}
+
+.course-item:hover {
+    transform: translateY(-10px);
+}
+
+/* Form Styling */
+form {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+form label {
+    display: block;
+    margin: 10px 0 5px;
+    font-size: 16px;
+    color: #007bff;
+}
+
+form input, form select, form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+form textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+form button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    text-align: center;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}
+
+/* Footer */
+footer {
+    background-color: #007bff; /* Solid blue background */
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+footer p {
+    margin: 0;
+}
+
+footer a {
+    color: white;
+    margin: 0 10px;
+    text-decoration: none;
+    font-size: 24px;
+    transition: opacity 0.3s ease;
+}
+
+footer a:hover {
+    opacity: 0.7;
+}
+
+/* Tutor List */
+#tutor-list-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Create a responsive grid */
+    gap: 20px; /* Spacing between tutor cards */
+    padding: 20px;
 }
 
 .tutor-item {
-    background-color: #ffffff; /* White background for the card */
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    padding: 20px;
-    width: 250px; /* Fixed width for each card */
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
+    padding: 20px;
+    transition: transform 0.3s ease;
+}
+
+.tutor-item:hover {
+    transform: translateY(-10px); /* Add a hover effect */
 }
 
 .tutor-item img {
-    border-radius: 50%; /* Circular profile picture */
-    width: 100px;
+    width: 100px; /* Set a consistent size for tutor images */
     height: 100px;
-    object-fit: cover;
-    margin-bottom: 15px;
-}
-
-.tutor-name {
-    font-size: 20px;
-    font-weight: bold;
+    border-radius: 50%;
     margin-bottom: 10px;
-    color: #007bff; /* Color for the tutor's name */
+    object-fit: cover;
 }
 
-.tutor-phone,
-.tutor-about {
+.tutor-item h2 {
+    font-size: 20px;
+    color: #007bff;
+    margin: 10px 0;
+}
+
+.tutor-item p {
     font-size: 16px;
     color: #333;
-    margin-bottom: 10px;
+    margin: 5px 0;
 }
 
-.tutor-phone a {
-    color: #007bff; /* Link color for the phone number */
+.tutor-item a {
+    color: #007bff;
     text-decoration: none;
 }
 
-footer {
-    background-color: #007bff;
-    color: white;
-    padding: 10px;
-    text-align: center;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
+.tutor-item a:hover {
+    text-decoration: underline;
+}
+
+/* Tutor Profile Section */
+.tutor-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.profile-picture-large {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+}
+
+.tutor-profile h1, .tutor-profile h2 {
+    font-size: 24px;
+    color: #007bff;
+    margin-bottom: 10px;
+}
+
+.tutor-profile p {
+    font-size: 18px;
+    color: #333;
+    margin: 5px 0;
+}
+
+.tutor-profile a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.tutor-profile a:hover {
+    text-decoration: underline;
+}
+
+/* Comments Section */
+.comments-section {
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+.comments-section ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.comments-section li {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+}
+
+.comments-section h2 {
+    margin-bottom: 20px;
 }

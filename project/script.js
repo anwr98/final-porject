@@ -1,8 +1,5 @@
 // script.js
 
-// Simulated database of tutors
-// script.js
-
 // Function to display tutors on the page based on the course
 function displayTutors(course) {
     const tutorList = document.getElementById('tutor-list');
@@ -42,7 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
         displayTutors(page);
     }
 });
-
 
 // Smooth scrolling for navigation links
 document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {

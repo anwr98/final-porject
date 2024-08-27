@@ -8,7 +8,7 @@
 
         try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/coding_courses?enabledTLSProtocols=TLSv1.2", "root", "0503089535a")) {
 
-            String sql = "SELECT name, phone, notes, profilePic FROM tutors WHERE course = ?";
+            String sql = "SELECT id, name, phone, notes, profilePic FROM tutors WHERE course = ?";
             try (PreparedStatement stmt = con.prepareStatement(sql)) {
                 stmt.setString(1, course);
                 ResultSet rs = stmt.executeQuery();
@@ -37,21 +37,24 @@
     </header>
 
     <main>
-        <h1>jquery Tutors</h1>
+        <h1>jqueryTutors</h1>
         <div id="tutor-list-container">
 <%
                 if (!rs.isBeforeFirst()) {
                     out.println("<p>No tutors found for the course: " + course + "</p>");
                 } else {
                     while (rs.next()) {
+                        String tutorId = rs.getString("id");
                         String tutorName = rs.getString("name");
                         String tutorPhone = rs.getString("phone");
                         String tutorNotes = rs.getString("notes");
                         String tutorProfilePic = rs.getString("profilePic");
 %>
                         <div class="tutor-item">
-                            <img src="<%= tutorProfilePic != null ? tutorProfilePic : "images/default.png" %>" alt="<%= tutorName %>" class="profile-picture">
-                            <h2><%= tutorName %></h2>
+                            <a href="tutor-profile.jsp?tutorId=<%= tutorId %>">
+                                <img src="<%= tutorProfilePic != null ? tutorProfilePic : "images/default.png" %>" alt="<%= tutorName %>" class="profile-picture">
+                                <h2><%= tutorName %></h2>
+                            </a>
                             <p><strong>Phone Number:</strong> <a href="tel:<%= tutorPhone %>"><%= tutorPhone %></a></p>
                             <p><strong>About Me:</strong> <%= tutorNotes != null ? tutorNotes : "No notes available." %></p>
                         </div>

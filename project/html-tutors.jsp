@@ -1,4 +1,18 @@
-<%@ page import="java.sql.*, java.util.*" %>
+<%@ page import="java.sql.*" %>
+
+<%
+    String course = "HTML";
+
+    try {
+        Class.forName("com.mysql.jdbc.Driver");
+
+        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/coding_courses?enabledTLSProtocols=TLSv1.2", "root", "0503089535a")) {
+
+            String sql = "SELECT id, name, phone, notes, profilePic FROM tutors WHERE course = ?";
+            try (PreparedStatement stmt = con.prepareStatement(sql)) {
+                stmt.setString(1, course);
+                ResultSet rs = stmt.executeQuery();
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,6 +30,7 @@
             <ul>
                 <li><a href="index.html">Home</a></li>
                 <li><a href="about.html">About Us</a></li>
+                <li><a href="courses.html">Our Courses</a></li>
                 <li><a href="contact.html">Contact Us</a></li>
             </ul>
         </nav>
@@ -23,46 +38,30 @@
 
     <main>
         <h1>HTML Tutors</h1>
-        <div class="tutor-list">
-            <%
-                Connection con = null;
-                PreparedStatement stmt = null;
-                ResultSet rs = null;
-
-                try {
-                    Class.forName("com.mysql.jdbc.Driver");
-                    con = DriverManager.getConnection("jdbc:mysql://localhost:3306/coding_courses?enabledTLSProtocols=TLSv1.2", "root", "0503089535a");
-
-                    String query = "SELECT name, phone, notes, profilePic FROM tutors WHERE course = 'HTML'";
-                    stmt = con.prepareStatement(query);
-                    rs = stmt.executeQuery();
-
+        <div id="tutor-list-container">
+<%
+                if (!rs.isBeforeFirst()) {
+                    out.println("<p>No tutors found for the course: " + course + "</p>");
+                } else {
                     while (rs.next()) {
+                        String tutorId = rs.getString("id");
                         String tutorName = rs.getString("name");
                         String tutorPhone = rs.getString("phone");
                         String tutorNotes = rs.getString("notes");
-                        String profilePic = rs.getString("profilePic");
-
-                        if (profilePic == null || profilePic.isEmpty()) {
-                            profilePic = "images/default.png"; 
-                        }
-                        %>
+                        String tutorProfilePic = rs.getString("profilePic");
+%>
                         <div class="tutor-item">
-                            <img src="<%= profilePic %>" alt="<%= tutorName %>" class="profile-picture">
-                            <div class="tutor-name"><%= tutorName %></div>
-                            <div class="tutor-phone">Phone Number: <a href="tel:<%= tutorPhone %>"><%= tutorPhone %></a></div>
-                            <div class="tutor-about">About Me: <%= tutorNotes != null && !tutorNotes.isEmpty() ? tutorNotes : "No notes available." %></div>
+                            <a href="tutor-profile.jsp?tutorId=<%= tutorId %>">
+                                <img src="<%= tutorProfilePic != null ? tutorProfilePic : "images/default.png" %>" alt="<%= tutorName %>" class="profile-picture">
+                                <h2><%= tutorName %></h2>
+                            </a>
+                            <p><strong>Phone Number:</strong> <a href="tel:<%= tutorPhone %>"><%= tutorPhone %></a></p>
+                            <p><strong>About Me:</strong> <%= tutorNotes != null ? tutorNotes : "No notes available." %></p>
                         </div>
-                        <%
+<%
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    if (rs != null) rs.close();
-                    if (stmt != null) stmt.close();
-                    if (con != null) con.close();
                 }
-            %>
+%>
         </div>
     </main>
 
@@ -76,3 +75,14 @@
     </footer>
 </body>
 </html>
+<%
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        out.println("SQL Error: " + e.getMessage());
+    } catch (ClassNotFoundException e) {
+        e.printStackTrace();
+        out.println("Error: MySQL Driver not found.");
+    }
+%>
