@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,7 +17,7 @@
         </div>
         <nav>
             <ul>
-                <li><a href="index.html#about">Home</a></li>
+                <li><a href="index.html">Home</a></li>
                 <li><a href="index.html#about">About Us</a></li>
                 <li><a href="index.html#courses">Our Courses</a></li>
                 <li><a href="index.html#contact">Contact Us</a></li>
@@ -32,70 +33,69 @@
         </div>
     </section>
 
-    <!-- About Us Section -->
-    <section id="about">
-        <h2>About Us</h2>
-        <p>Welcome to our online coding courses platform. We offer a variety of courses to help you learn and excel in programming.</p>
-    </section>
+   <section id="about">
+    <h2>About Us</h2>
+    <p>Welcome to our online coding courses platform. We offer a variety of courses to help you learn and excel in programming.</p>
+</section>
 
-    <!-- Our Courses Section -->
-    <section id="courses">
-        <h2>Our Courses</h2>
-        <div class="course-list">
-            <div class="course-item">
-                <a href="html-tutors.jsp">
-                    <img src="images/html.png" alt="HTML">
-                    <p>HTML</p>
-                </a>
-            </div>
-            <div class="course-item">
-                <a href="javascript-tutors.jsp">
-                    <img src="images/javascript.png" alt="JavaScript">
-                    <p>JavaScript</p>
-                </a>
-            </div>
-            <div class="course-item">
-                <a href="css-tutors.jsp">
-                    <img src="images/css.png" alt="CSS">
-                    <p>CSS</p>
-                </a>
-            </div>
-            <div class="course-item">
-                <a href="jquery-tutors.jsp">
-                    <img src="images/jquery.png" alt="jQuery">
-                    <p>jQuery</p>
-                </a>
-            </div>
+<!-- Our Courses Section -->
+<section id="courses">
+    <h2>Our Courses</h2>
+    <div class="course-list">
+        <div class="course-item">
+            <a href="html-tutors.jsp">
+                <img src="images/html.png" alt="HTML">
+                <p>HTML</p>
+            </a>
         </div>
-    </section>
+        <div class="course-item">
+            <a href="javascript-tutors.jsp">
+                <img src="images/javascript.png" alt="JavaScript">
+                <p>JavaScript</p>
+            </a>
+        </div>
+        <div class="course-item">
+            <a href="css-tutors.jsp">
+                <img src="images/css.png" alt="CSS">
+                <p>CSS</p>
+            </a>
+        </div>
+        <div class="course-item">
+            <a href="jquery-tutors.jsp">
+                <img src="images/jquery.png" alt="jQuery">
+                <p>jQuery</p>
+            </a>
+        </div>
+    </div>
+</section>
 
-    <!-- Contact Us Section -->
-    <section id="contact">
-        <h2>Contact Us</h2>
-        <form action="contact-process.jsp" method="post">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
+<!-- Contact Us Section -->
+<section id="contact">
+    <h2>Contact Us</h2>
+    <form action="contact-process.jsp" method="post">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
 
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
 
-            <label for="phone">Phone Number:</label>
-            <input type="tel" id="phone" name="phone" required>
+        <label for="phone">Phone Number:</label>
+        <input type="tel" id="phone" name="phone" required>
 
-            <label for="course">Select a Course:</label>
-            <select id="course" name="course" required>
-                <option value="javascript">JavaScript</option>
-                <option value="css">CSS</option>
-                <option value="html">HTML</option>
-                <option value="jquery">jQuery</option>
-            </select>
+        <label for="course">Select a Course:</label>
+        <select id="course" name="course" required>
+            <option value="javascript">JavaScript</option>
+            <option value="css">CSS</option>
+            <option value="html">HTML</option>
+            <option value="jquery">jQuery</option>
+        </select>
 
-            <label for="note">Note:</label>
-            <textarea id="note" name="note" rows="4" required></textarea>
+        <label for="note">Note:</label>
+        <textarea id="note" name="note" rows="4" required></textarea>
 
-            <button type="submit">Submit</button>
-        </form>
-    </section>
+        <button type="submit">Submit</button>
+    </form>
+</section>
 
     <!-- Footer -->
     <footer>

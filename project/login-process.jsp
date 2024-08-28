@@ -2,12 +2,8 @@
 
 <%
     // Retrieve login credentials from the form
-    String phone = request.getParameter("phone"); // Changed to phone, as used in your registration process
+    String phone = request.getParameter("phone"); 
     String password = request.getParameter("password");
-
-    // Debugging output
-    out.println("Phone: " + phone);
-    out.println("Password: " + password);
 
     boolean isValidUser = false;
     String tutorName = "";
@@ -20,7 +16,6 @@
     }
 
     try {
-        // Ensure you have the correct MySQL driver class for your version of MySQL
         Class.forName("com.mysql.jdbc.Driver");
 
         // Establish connection to the database
@@ -29,7 +24,7 @@
             // Prepare the SQL statement to check the tutor's credentials
             String sql = "SELECT id, name FROM tutors WHERE phone = ? AND password = ?";
             try (PreparedStatement stmt = con.prepareStatement(sql)) {
-                stmt.setString(1, phone); // Use phone here
+                stmt.setString(1, phone); 
                 stmt.setString(2, password);
 
                 // Execute the query
@@ -49,8 +44,8 @@
             session.setAttribute("tutorName", tutorName);
             session.setAttribute("tutorId", tutorId);
 
-            // Redirect to the tutor's profile page (dynamic or static)
-            response.sendRedirect("profile.jsp");
+            // Redirect to the tutor's dashboard page
+            response.sendRedirect("tutor-dashboard.jsp");
         } else {
             // Display an error message if login failed
             out.println("Invalid phone number or password. Please try again.");
@@ -64,4 +59,3 @@
         out.println("Error: MySQL Driver not found.");
     }
 %>
-

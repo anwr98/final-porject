@@ -20,6 +20,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CSS Tutors</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <header>
@@ -29,9 +30,10 @@
         <nav>
             <ul>
                 <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About Us</a></li>
-                <li><a href="courses.html">Our Courses</a></li>
-                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="index.html#about">About Us</a></li>
+                <li><a href="index.html#courses">Our Courses</a></li>
+                <li><a href="index.html#contact">Contact Us</a></li>
+                <li><a href="login.html">Login</a></li>
             </ul>
         </nav>
     </header>

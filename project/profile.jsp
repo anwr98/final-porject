@@ -10,6 +10,34 @@
         response.sendRedirect("login.html");
         return;
     }
+
+    // Variables to hold tutor details
+    String tutorPhone = "", tutorNotes = "", tutorProfilePic = "images/default.png";
+
+    try {
+        // Load MySQL JDBC driver
+        Class.forName("com.mysql.jdbc.Driver");
+
+        // Establish connection to the database
+        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/coding_courses?enabledTLSProtocols=TLSv1.2", "root", "0503089535a")) {
+
+            // Fetch tutor details from the database
+            String sql = "SELECT phone, notes, profilePic FROM tutors WHERE id = ?";
+            try (PreparedStatement stmt = con.prepareStatement(sql)) {
+                stmt.setString(1, tutorId);
+                ResultSet rs = stmt.executeQuery();
+
+                if (rs.next()) {
+                    tutorPhone = rs.getString("phone");
+                    tutorNotes = rs.getString("notes");
+                    tutorProfilePic = rs.getString("profilePic") != null ? rs.getString("profilePic") : "images/default.png";
+                }
+            }
+        }
+    } catch (SQLException | ClassNotFoundException e) {
+        e.printStackTrace();
+        out.println("Error: " + e.getMessage());
+    }
 %>
 
 <!DOCTYPE html>
@@ -28,7 +56,7 @@
         </div>
         <nav>
             <ul>
-                <li><a href="index.html#about">Home</a></li>
+                <li><a href="index.html">Home</a></li>
                 <li><a href="index.html#about">About Us</a></li>
                 <li><a href="index.html#courses">Our Courses</a></li>
                 <li><a href="index.html#contact">Contact Us</a></li>
@@ -37,9 +65,21 @@
         </nav>
     </header>
 
-    <main>
-        <h1>Welcome, <%= tutorName %>!</h1>
-        <!-- Display other dynamic tutor information here -->
+    <main class="tutor-profile-container">
+        <div class="profile-card">
+            <img src="<%= tutorProfilePic %>" alt="<%= tutorName %>" class="profile-picture-large">
+            <h1><%= tutorName %></h1>
+            <p><strong>Phone Number:</strong> <a href="tel:<%= tutorPhone %>"><%= tutorPhone %></a></p>
+            <p><strong>About Me:</strong> <%= tutorNotes != null ? tutorNotes : "No notes available." %></p>
+        </div>
+        
+        <!-- Profile Picture Update Form -->
+        <form action="update-profile.jsp" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="tutorId" value="<%= tutorId %>">
+            <label for="profilePic">Update Profile Picture:</label>
+            <input type="file" name="profilePic" id="profilePic" accept="image/*" required>
+            <button type="submit">Update Picture</button>
+        </form>
     </main>
 
     <footer>
@@ -52,4 +92,3 @@
     </footer>
 </body>
 </html>
-

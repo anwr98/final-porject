@@ -1,81 +1,68 @@
-<%@ page import="java.sql.Connection, java.sql.DriverManager, java.sql.PreparedStatement, java.sql.SQLException" %>
-<%@ page import="java.io.File, java.io.IOException, java.io.InputStream, java.io.InputStreamReader, java.io.BufferedReader" %>
-<%@ page import="javax.servlet.http.Part" %>
-<%@ page import="javax.servlet.ServletException" %>
+<%@ page import="java.sql.*, java.io.*, javax.servlet.http.Part" %>
 
 <%
-    // Retrieve the tutor ID from the session
+    // Ensure the tutor is logged in by checking session
     String tutorId = (String) session.getAttribute("tutorId");
-    
-    // Initialize variables for form data
-    String notes = null;
+    String notes = request.getParameter("notes");
+    Part profilePic = request.getPart("profilePic");
+
+    // Initialize variables
     String profilePicPath = null;
-    
-    // Handle multipart form data (both text and file)
+
+    // If a profile picture was uploaded
+    if (profilePic != null && profilePic.getSize() > 0) {
+        // Extract the filename from the content-disposition header
+        String header = profilePic.getHeader("content-disposition");
+        String fileName = header.substring(header.indexOf("filename=\"") + 10, header.lastIndexOf("\""));
+        profilePicPath = "images/" + fileName;
+
+        // Save the uploaded file
+        File fileSaveDir = new File(application.getRealPath("/") + profilePicPath);
+        profilePic.write(fileSaveDir.getAbsolutePath());
+    }
+   
+
     try {
-        // Extract notes from the form submission
-        Part notesPart = request.getPart("notes");
-        if (notesPart != null) {
-            // Convert the InputStream of the notes part to a string manually
-            StringBuilder notesBuilder = new StringBuilder();
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(notesPart.getInputStream()))) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    notesBuilder.append(line);
-                }
-            }
-            notes = notesBuilder.toString().trim();
-        }
-
-        // Handle file upload if a file was submitted
-        Part profilePic = request.getPart("profilePic");
-        if (profilePic != null && profilePic.getSize() > 0) {
-            String header = profilePic.getHeader("content-disposition");
-            String fileName = header.substring(header.indexOf("filename=\"") + 10, header.lastIndexOf("\""));
-            profilePicPath = "images/" + fileName;
-
-            // Save the uploaded file to the specified directory
-            File fileSaveDir = new File(application.getRealPath("/") + profilePicPath);
-            profilePic.write(fileSaveDir.getAbsolutePath());
-        }
-
-        // Debug output to check the received values
-        out.println("Notes: " + notes);
-        out.println("Profile Picture Path: " + profilePicPath);
-
-        // Update the database with the new notes and profile picture
+        // Load MySQL JDBC driver
         Class.forName("com.mysql.jdbc.Driver");
+
+        // Establish connection to the database
         try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/coding_courses?enabledTLSProtocols=TLSv1.2", "root", "0503089535a")) {
+
+            // SQL statement to update notes and profilePic (if available)
             String sql = "UPDATE tutors SET notes = ?, profilePic = ? WHERE id = ?";
+
             try (PreparedStatement stmt = con.prepareStatement(sql)) {
-                // Set the notes, or set null if they weren't provided
-                stmt.setString(1, notes != null && !notes.isEmpty() ? notes : null);
-                
-                // Set the profile picture path, or set null if no picture was uploaded
-                stmt.setString(2, profilePicPath != null ? profilePicPath : null);
-                
-                // Set the tutor ID for the WHERE clause
+                // Set the note value
+                stmt.setString(1, notes);
+
+                // If a new profile picture was uploaded, set the path; otherwise, keep the existing one
+                if (profilePicPath != null) {
+                    stmt.setString(2, profilePicPath);
+                } else {
+                    stmt.setNull(2, java.sql.Types.VARCHAR); // If no new profile picture, set NULL to skip update
+                }
+
+                // Set the tutor ID for the update
                 stmt.setString(3, tutorId);
-                
-                int rowsUpdated = stmt.executeUpdate();
-                out.println(rowsUpdated + " rows updated."); // Debugging output
+
+                // Execute the update statement
+                int n = stmt.executeUpdate();
+                out.println(n + " rows updated.");
             }
         }
 
-        // Redirect back to the profile page after successful update
-        response.sendRedirect("profile.jsp");
+        // Redirect to the tutor dashboard page after update
+        response.sendRedirect("tutor-dashboard.jsp");
 
     } catch (SQLException e) {
         e.printStackTrace();
         out.println("SQL Error: " + e.getMessage());
     } catch (ClassNotFoundException e) {
         e.printStackTrace();
-        out.println("Error: MySQL Driver not found.");
+        out.println("Error: MySQL Driver not found");
     } catch (IOException e) {
         e.printStackTrace();
         out.println("File Upload Error: " + e.getMessage());
-    } catch (ServletException e) {
-        e.printStackTrace();
-        out.println("Servlet Error: " + e.getMessage());
     }
 %>

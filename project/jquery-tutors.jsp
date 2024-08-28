@@ -18,8 +18,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>jquery Tutors</title>
+    <title>jQuery Tutors</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
 </head>
 <body>
     <header>
@@ -29,15 +31,16 @@
         <nav>
             <ul>
                 <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About Us</a></li>
-                <li><a href="courses.html">Our Courses</a></li>
-                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="index.html#about">About Us</a></li>
+                <li><a href="index.html#courses">Our Courses</a></li>
+                <li><a href="index.html#contact">Contact Us</a></li>
+                <li><a href="login.html">Login</a></li>
             </ul>
         </nav>
     </header>
-
+    
     <main>
-        <h1>jqueryTutors</h1>
+        <h1>jQuery Tutors</h1>
         <div id="tutor-list-container">
 <%
                 if (!rs.isBeforeFirst()) {
@@ -61,10 +64,10 @@
 <%
                     }
                 }
-%>
+%>  
         </div>
-    </main>
-
+    </main>   
+    
     <footer>
         <div class="footer-content">
             <p>Follow us:</p>
@@ -73,6 +76,7 @@
             <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
         </div>
     </footer>
+    
 </body>
 </html>
 <%
@@ -86,3 +90,4 @@
         out.println("Error: MySQL Driver not found.");
     }
 %>
+
