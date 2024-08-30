@@ -8,8 +8,10 @@
     PreparedStatement stmt = null;
 
     try {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/yourdbname", "root", "yourpassword");
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+    
+            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/coding_courses?enabledTLSProtocols=TLSv1.2", "root", "0503089535a")) {
 
         // Query to insert contact message
         String sql = "INSERT INTO contact_messages (name, email, message) VALUES (?, ?, ?)";

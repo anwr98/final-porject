@@ -3,14 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tutor Login</title>
+    <title>Tutor Registration</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .error-message {
+            color: red;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
     <header>
         <div id="logo-container">
-            <img src="images/logo.png" alt="Courses Online" id="logo" onclick="location.href='index.html';">
+            <img src="images/logo.png" alt="Courses Online" id="logo" onclick="location.href='index.jsp';">
         </div>
         <nav>
             <ul>
@@ -24,20 +31,40 @@
     </header>
 
     <main>
-        <h1>Tutor Login</h1>
-        <form action="login-process.jsp" method="post">
-            <label for="phone">Phone Number:</label>
+        <h1>Tutor Registration</h1>
+
+        <%-- Display error message if present --%>
+        <%
+            String errorMessage = (String) request.getAttribute("errorMessage");
+            if (errorMessage != null) {
+        %>
+            <p class="error-message"><%= errorMessage %></p>
+        <% } %>
+
+        <form action="registration-process.jsp" method="post">
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" name="name" required>
+            
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="phone">Phone:</label>
             <input type="text" id="phone" name="phone" required>
-        
+            
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
-        
-            <button type="submit">Login</button>
+            
+            <label for="course">Course to Teach:</label>
+            <select id="course" name="course" required>
+                <option value="JavaScript">JavaScript</option>
+                <option value="CSS">CSS</option>
+                <option value="HTML">HTML</option>
+                <option value="jQuery">jQuery</option>
+            </select>
+            
+            <button type="submit">Register</button>
         </form>
-        
-        <p>Don't have an account? <a href="create-registration.jsp">Register here</a></p>
     </main>
-
     <footer>
         <div class="footer-content">
             <p>Follow us:</p>
@@ -46,7 +73,7 @@
             <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
         </div>
     </footer>
-
+    
     <script src="script.js"></script>
 </body>
 </html>
