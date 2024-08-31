@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
+    <title>Add Course</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -13,16 +13,25 @@
         </div>
         <nav>
             <ul>
-                <li><a href="admin-add-course.jsp">Add Course</a></li>
+                <li><a href="admin-dashboard.jsp">Dashboard</a></li>
                 <li><a href="logout.jsp">Logout</a></li>
             </ul>
         </nav>
     </header>
 
     <main>
-        <h1>Welcome, Admin</h1>
-        <p>This is the admin dashboard where you can manage courses.</p>
-        <a href="admin-add-course.jsp">Add New Course</a>
+        <h1>Add New Course</h1>
+        <form action="admin-add-course-process.jsp" method="post" enctype="multipart/form-data">
+            <label for="courseName">Course Name:</label>
+            <input type="text" id="courseName" name="courseName" required>
+        
+            <label for="courseImage">Course Image:</label>
+            <input type="file" id="courseImage" name="courseImage" accept="image/*" required>
+        
+            <button type="submit">Add Course</button>
+        </form>
+        
+        
     </main>
 
     <footer>

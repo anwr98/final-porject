@@ -1,3 +1,5 @@
+<%@ page import="java.sql.Connection, java.sql.DriverManager, java.sql.PreparedStatement, java.sql.ResultSet, java.sql.SQLException" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,13 +8,6 @@
     <title>Tutor Registration</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        .error-message {
-            color: red;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-    </style>
 </head>
 <body>
     <header>
@@ -21,11 +16,11 @@
         </div>
         <nav>
             <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="index.html#about">About Us</a></li>
-                <li><a href="index.html#courses">Our Courses</a></li>
-                <li><a href="index.html#contact">Contact Us</a></li>
-                <li><a href="login.html">Login</a></li>
+                <li><a href="index.jsp">Home</a></li>
+                <li><a href="index.jsp#about">About Us</a></li>
+                <li><a href="index.jsp#courses">Our Courses</a></li>
+                <li><a href="index.jsp#contact">Contact Us</a></li>
+                <li><a href="login.jsp">Login</a></li>
             </ul>
         </nav>
     </header>
@@ -41,7 +36,7 @@
             <p class="error-message"><%= errorMessage %></p>
         <% } %>
 
-        <form action="registration-process.jsp" method="post">
+        <form action="create-registration.jsp" method="post">
             <label for="name">Full Name:</label>
             <input type="text" id="name" name="name" required>
             
@@ -64,7 +59,49 @@
             
             <button type="submit">Register</button>
         </form>
+
+        <%-- Database interaction --%>
+        <%
+            String name = request.getParameter("name");
+            String email = request.getParameter("email");
+            String phone = request.getParameter("phone");
+            String password = request.getParameter("password");
+            String course = request.getParameter("course");
+
+            // Establishing the connection to the database
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/coding_courses?enabledTLSProtocols=TLSv1.2", "root", "0503089535a");
+
+                String sql = "INSERT INTO tutors (name, email, phone, password, course, role) VALUES (?, ?, ?, ?, ?, 'tutor')";
+                PreparedStatement stmt = con.prepareStatement(sql);
+                stmt.setString(1, name);
+                stmt.setString(2, email);
+                stmt.setString(3, phone);
+                stmt.setString(4, password);
+                stmt.setString(5, course);
+
+                int rowsInserted = stmt.executeUpdate();
+
+                if (rowsInserted > 0) {
+                    out.println("Registration successful!");
+                } else {
+                    out.println("Registration failed. Please try again.");
+                }
+
+                stmt.close();
+                con.close();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                out.println("SQL Error: " + e.getMessage());
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+                out.println("Error: MySQL Driver not found.");
+            }
+        %>
     </main>
+
     <footer>
         <div class="footer-content">
             <p>Follow us:</p>
